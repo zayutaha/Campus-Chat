@@ -1,0 +1,50 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.venv
+null*
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+*.egg
+*.idea
+
+# Pytest / coverage
+htmlcov/
+.coverage
+.tox/
+.nox/
+pytest_cache/
+.cache/
+
+# MyPy
+.mypy_cache/
+
+# FastAPI / Uvicorn / Logs
+*.log
+
+# VSCode
+.vscode/
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+
+# SQLite / DB
+*.sqlite3
+*.db
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Poetry / pipenv
+.poetry/
+__pypackages__/
+*.lock
+

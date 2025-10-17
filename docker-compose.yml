@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:9.5.0
+    container_name: campus_chat_db
+    environment:
+      MYSQL_ROOT_PASSWORD: passwd
+      MYSQL_DATABASE: campus_chat
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build: ./be
+    container_name: campus_chat_backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql+aiomysql://test_user:test@db:3306/campus_chat
+    ports:
+      - "8000:8000"
+
+volumes:
+  db_data:
