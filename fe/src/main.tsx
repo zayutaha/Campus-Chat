@@ -4,16 +4,18 @@ import "./index.css";
 import App from "./App.tsx";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
+import React from "react";
+
 const theme = createTheme({
   palette: {
     mode: "dark",
   },
 });
+
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme}>
     <StrictMode>
       <App />
     </StrictMode>
-    ,
-  </ThemeProvider>,
+  </ThemeProvider>
 );

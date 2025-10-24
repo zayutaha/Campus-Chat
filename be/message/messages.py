@@ -1,5 +1,4 @@
 import random
-import sys
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List
@@ -33,7 +32,7 @@ class MessageBuilder:
         return self
 
     def build(self) -> Message:
-        id = random.randrange(1, sys.maxsize)
+        id = random.randrange(1, 256)
         if self._user_id is None or self._channel_id is None or self._content is None:
             raise ValueError("All fields must be set before building a Message")
         return Message(id, self._user_id, self._channel_id, self._content)

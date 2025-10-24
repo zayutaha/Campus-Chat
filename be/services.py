@@ -19,6 +19,9 @@ class Server:
         channel = ChannelBuilder().with_title(title).build()
         return self.channel_repo.save(channel)
 
+    def list_channels(self) -> List[Channel]:
+        return self.channel_repo.list()
+
     def get_channel(self, channel_id: int) -> Optional[Channel]:
         channel = self.channel_repo.get(channel_id)
         return channel

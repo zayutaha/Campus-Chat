@@ -1,5 +1,4 @@
 import random
-import sys
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
@@ -28,9 +27,12 @@ class InMemoryChannelRepo(ChannelRepo):
     def get(self, channel_id: int) -> Optional[Channel]:
         return self.channel.get(channel_id)
 
+    def list(self) -> List[Channel]:
+        return list(self.channel.values())
+
     def save(self, channel: Channel) -> int:
         if not channel.id:
-            channel.id = int(random.randint(0, sys.maxsize))
+            channel.id = int(random.randint(0, 255))
 
         self.channel[channel.id] = channel
         return channel.id
@@ -45,7 +47,7 @@ class InMemoryUserRepo(UserRepo):
 
     def save(self, user: User) -> int:
         if not user.id:
-            user.id = int(random.randint(0, sys.maxsize))
+            user.id = int(random.randint(0, 255))
 
         self.users[user.id] = user
 
