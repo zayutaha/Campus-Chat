@@ -1,5 +1,5 @@
 import axios from "axios";
-export const BASE_URL = "http://backend:8000";
+export const BASE_URL = "http://localhost:8000";
 
 export type Response<T> =
   | { status: "pending" }
@@ -15,7 +15,7 @@ export function initializeSocket(
   handleEvent: (event: MessageEvent) => void,
 ): WebSocket {
   const ws = new WebSocket(
-    `ws://localhost:8081/ws/channel/${channelId}/user/${userId}`,
+    `ws://localhost:8000/ws/channel/${channelId}/user/${userId}`,
   );
 
   ws.onopen = () => {
@@ -42,7 +42,7 @@ export async function sendMessage(webSocket: WebSocket, message: string) {
 }
 
 export async function createChannel(title: string): Promise<number> {
-  return await fetch(`{BASE_URL}/channels`, {
+  return await fetch(`${BASE_URL}/channels`, {
     method: "POST",
     body: JSON.stringify({
       title,
@@ -58,7 +58,7 @@ export async function createUser(
   username: string,
   password: string = "123",
 ): Promise<number> {
-  return await fetch(`{BASE_URL}/users`, {
+  return await fetch(`${BASE_URL}/users`, {
     method: "POST",
     body: JSON.stringify({
       name: username,

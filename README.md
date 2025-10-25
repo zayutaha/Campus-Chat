@@ -1,105 +1,199 @@
 # Campus Chat
 
-Campus Chat is a full-stack application designed to facilitate communication within a campus environment. It consists of a backend and a frontend, each with its own setup and functionality.
+Campus Chat is a **full-stack real-time messaging application** built for campus communities. It includes a **FastAPI backend** and a **React + Vite frontend**, both fully containerized with Docker for simple setup and deployment.
+
+---
 
 ## Table of Contents
 
+- [Overview](#overview)
+- [Architecture](#architecture)
 - [Backend](#backend)
 - [Frontend](#frontend)
-- [Getting Started](#getting-started)
+- [Docker Setup](#docker-setup)
+- [Environment Variables](#environment-variables)
+- [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
 
 ---
 
+## Overview
+
+Campus Chat enables students and faculty to communicate in real time through channels, direct messages, and notifications. The project is designed with modularity and developer productivity in mind.
+
+---
+
+## Architecture
+
+```
+├── be/              # Backend (FastAPI + uv)
+├── fe/              # Frontend (React + Vite + Tailwind)
+├── docker-compose.yml
+└── README.md
+```
+
+**Services:**
+
+- **Backend:** FastAPI app exposing REST + WebSocket APIs
+- **Frontend:** React UI served via Vite build
+- **Database:** MySQL instance
+
+---
+
 ## Backend
 
-The backend is located in the `be` directory and is responsible for handling the server-side logic, including user management, messaging, and channel operations.
+**Directory:** `be/`
 
 ### Features
 
-- User authentication and management
-- Real-time messaging
-- Channel creation and management
+- User management (create, login)
+- Channel creation and messaging
+- WebSocket-based real-time communication
 
-### Technologies Used
+### Tech Stack
 
-- Python
-- FastAPI
-- Docker
+- Python 3.11
+- FastAPI + Uvicorn
+- MySQL (via Docker)
+- `uv` for dependency management
 
-### Setup
+### Local Run
 
-1. Navigate to the `be` directory:
-   ```bash
-   cd be
-   ```
-2. Build the Docker image:
-   ```bash
-   docker build -t campus-chat-backend .
-   ```
-3. Run the backend server:
-   ```bash
-   docker-compose up
-   ```
+```bash
+cd be
+uv sync
+uv run uvicorn server:app --reload --host 0.0.0.0 --port 8000
+```
+
+### Docker Run
+
+```bash
+cd be
+docker build -t campus-chat-backend .
+docker run -p 8000:8000 campus-chat-backend
+```
 
 ---
 
 ## Frontend
 
-The frontend is located in the `fe` directory and provides the user interface for the application. It is built using React, TypeScript, and Vite.
+**Directory:** `fe/`
 
 ### Features
 
-- User-friendly interface
-- Real-time chat updates
-- Profile management
+- Real-time chat interface
+- User authentication
+- Channel and message views
+- Responsive Tailwind design
 
-### Technologies Used
+### Tech Stack
 
-- React
-- TypeScript
+- React + TypeScript
 - Vite
 - Tailwind CSS
 
-### Setup
+### Local Run
 
-1. Navigate to the `fe` directory:
-   ```bash
-   cd fe
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+```bash
+cd fe
+npm install
+npm run dev
+```
+
+The app will be available at [http://localhost:5173](http://localhost:5173).
 
 ---
 
-## Getting Started
+## Docker Setup
 
-To run the entire application:
+You can run the entire stack using Docker Compose.
 
-1. Start the backend server as described in the [Backend Setup](#backend) section.
-2. Start the frontend development server as described in the [Frontend Setup](#frontend) section.
-3. Open your browser and navigate to the frontend's development server URL (`http://localhost:5173`).
+### Build and Start
+
+```bash
+docker compose up --build -d
+```
+
+### Services
+
+| Service      | Description      | Port |
+| ------------ | ---------------- | ---- |
+| **backend**  | FastAPI backend  | 8000 |
+| **frontend** | React + Vite app | 5173 |
+| **db**       | MySQL database   | 3306 |
+
+### Logs
+
+```bash
+docker compose logs -f
+```
+
+### Stop
+
+```bash
+docker compose down
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following:
+
+```env
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=campus_chat
+MYSQL_USER=chat_user
+MYSQL_PASSWORD=chat_pass
+
+BASE_URL=http://backend:8000
+```
+
+The `BASE_URL` variable allows the frontend to communicate with the backend service inside Docker.
+
+---
+
+## Development
+
+If you prefer running without Docker:
+
+1. Start a MySQL container:
+
+   ```bash
+   docker run -d -p 3306:3306 \
+     -e MYSQL_ROOT_PASSWORD=root \
+     -e MYSQL_DATABASE=campus_chat \
+     mysql:8
+   ```
+
+2. Run the backend:
+
+   ```bash
+   cd be
+   uv run uvicorn server:app --reload
+   ```
+
+3. Run the frontend:
+
+   ```bash
+   cd fe
+   npm run dev
+   ```
+
+4. Visit [http://localhost:5173](http://localhost:5173).
 
 ---
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Commit your changes and push them to your fork.
-4. Submit a pull request.
+1. Fork the repository
+2. Create a feature branch
+3. Commit and push your changes
+4. Open a pull request
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the **MIT License**. See the LICENSE file for details.
